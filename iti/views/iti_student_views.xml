@@ -1,0 +1,94 @@
+<odoo>
+    <data>
+
+        <record id="students_tree_view" model="ir.ui.view">
+            <field name="name">Students Tree View</field>
+            <field name="model">iti.student</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="birth_date"/>
+                    <field name="salary"/>
+                    <field name="tax" />
+                </tree>
+            </field>
+         </record>
+           
+        <record id="students_form_view" model="ir.ui.view">
+            <field name="name">Students Form View</field>
+            <field name="model">iti.student</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="Set First Interview" type="object" name="change_state"
+                        attrs="{'invisible':[('state','!=','applied')]}"/>
+                        <button string="Set second Interview" states="first" type="object" name="change_state"/>
+                        <button string="Passed" states="second" type="object" name="set_passed"/>
+                        <button string="Rejected" states="second" type="object" name="set_rejected"/>
+                        <button string="Back to applied" states="passed,rejected" type="object" name="change_state"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group string="Basic Info">
+                                <field name="name"/>  
+                                <field name="email"/>
+                                <field name="gender" />
+                                <field name="salary" />
+                                <field name="tax" />
+                                <field name="state" />
+                                <field name="birth_date" attrs="{'invisible': [('gender', '=', 'f')]}"/> 
+                                <field name="skills_ids" widget="many2many_tags"/>
+                            </group>
+                            <group string="Iti Info">
+                                <field name="accepted" />
+                                <field name="image" widget="image"/>
+                                <field name="level" />
+                                <field name="track_id" groups="iti.iti_manager_group" domain="[('is_open', '=', True)]"/>
+                                <field name="track_capacity"/>
+                            </group>
+                        </group>
+
+
+                        <notebook>
+
+                            <page string="CV">
+                            <group>
+                                <field name="cv"/> 
+                            </group>
+                            </page>
+
+                            <page string="Address">
+                            <group>
+                                <field name="address"/>
+                            </group>
+                            </page>
+
+                            <page string="Grades">
+                            <group>
+                                <field name="grade_ids">
+                                    <tree>
+                                        <field name="course_id"/>
+                                        <field name="grade"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            </page>
+
+                        </notebook>
+                    </sheet>    
+                </form>
+            </field>
+         </record>
+           
+
+        <record id="students_action" model="ir.actions.act_window">
+            <field name="name">Students</field>
+            <field name="res_model">iti.student</field>
+        </record>
+
+        <menuitem id="iti_root" name="ITI"/>
+        <menuitem id="iti_students_menu" name="Students" parent="iti_root" action="students_action"/>
+
+    </data>
+
+</odoo>
