@@ -1,2 +1,2 @@
-# ITI-Odoo-
-ITI Odoo model
+# ITI-Odoo
+ITI Odoo module
